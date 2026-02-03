@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup - Autobazár</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f3f4f6;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2563eb; }
+        h2 { color: #1f2937; margin-top: 30px; }
+        .step {
+            background: #f9fafb;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #2563eb;
+            border-radius: 4px;
+        }
+        .step h3 { margin-top: 0; color: #1f2937; }
+        .button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin: 10px 5px 10px 0;
+        }
+        .button:hover {
+            background: #1e40af;
+        }
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Autobazár - Setup Sprievodca</h1>
+        
+        <div class="warning">
+            <strong>⚠️ Poznámka:</strong> Pred pokračovaním sa uistite, že máte spustené:
+            <ul>
+                <li><strong>Apache</strong> - Web server (v XAMPP Control Panel → START)</li>
+                <li><strong>MySQL</strong> - Databáza (v XAMPP Control Panel → START)</li>
+            </ul>
+        </div>
+
+        <h2>Krok 1: Kontrola MySQL</h2>
+        <div class="step">
+            <h3>Stav MySQL serveru</h3>
+            <p>Skontrolujeme, či je MySQL dostupný...</p>
+            <?php
+                $mysqli = @new mysqli("localhost", "root", "");
+                if ($mysqli->connect_error) {
+                    echo '<div class="warning">';
+                    echo '<strong>❌ MySQL nie je dostupný</strong><br>';
+                    echo 'Chyba: ' . htmlspecialchars($mysqli->connect_error) . '<br><br>';
+                    echo '✓ Riešenie:<br>';
+                    echo '1. Otvorte XAMPP Control Panel<br>';
+                    echo '2. Kliknite "START" vedľa "MySQL"<br>';
+                    echo '3. Počkajte 10 sekúnd<br>';
+                    echo '4. Osviežte túto stránku (F5)<br>';
+                    echo '</div>';
+                } else {
+                    echo '<div class="success">';
+                    echo '<strong>✅ MySQL je pripojený!</strong><br>';
+                    echo 'Verzia: ' . $mysqli->server_info . '<br>';
+                    echo '</div>';
+                    
+                    // Krok 2: Vytvorenie databázy
+                    echo '</div><h2>Krok 2: Vytvorenie Databázy</h2><div class="step">';
+                    echo '<h3>Inicializácia databázy</h3>';
+                    
+                    if ($mysqli->query("CREATE DATABASE IF NOT EXISTS autobazar")) {
+                        echo '<div class="success">✅ Databáza "autobazar" existuje</div>';
+                        
+                        $mysqli->select_db("autobazar");
+                        
+                        // Zavolaj database.php na inicializáciu
+                        ob_start();
+                        include __DIR__ . '/database.php';
+                        $init_output = ob_get_clean();
+                        
+                        echo '<div class="success">';
+                        echo '<strong>✅ Databáza bola úspešne inicializovaná!</strong><br>';
+                        echo 'Vytvorené:<br>';
+                        echo '- 5 tabuliek<br>';
+                        echo '- 1 admin účet (admin/admin123)<br>';
+                        echo '- 5 vzorových áut<br>';
+                        echo '</div>';
+                    } else {
+                        echo '<div class="warning">';
+                        echo '<strong>❌ Chyba pri vytváraní databázy:</strong><br>';
+                        echo htmlspecialchars($mysqli->error);
+                        echo '</div>';
+                    }
+                    
+                    $mysqli->close();
+                }
+            ?>
+        </div>
+
+        <h2>Krok 3: Prejdite na aplikáciu</h2>
+        <div class="step">
+            <h3>Hotovo! 🎉</h3>
+            <p>Kliknite nižšie na tlačidla pre prístup k aplikácii:</p>
+            <p>
+                <a href="index.php" class="button">🏠 Domovská stránka</a>
+                <a href="admin.php" class="button">👤 Admin Panel</a>
+            </p>
+            <p>
+                <strong>Admin prihláška:</strong><br>
+                Meno: <code>admin</code><br>
+                Heslo: <code>admin123</code>
+            </p>
+        </div>
+
+        <h2>Čo sa stalo?</h2>
+        <div class="step">
+            <h3>Databázové tabuľky:</h3>
+            <ul>
+                <li><strong>cars</strong> - Zoznam áut</li>
+                <li><strong>car_images</strong> - Obrázky áut</li>
+                <li><strong>orders</strong> - Objednávky</li>
+                <li><strong>order_items</strong> - Položky objednávok</li>
+                <li><strong>admin_users</strong> - Administrátori</li>
+            </ul>
+            <h3>Vzorové dáta:</h3>
+            <ul>
+                <li>5 áut (Volkswagen, BMW, Mercedes, Toyota, Audi)</li>
+                <li>1 admin účet (admin / admin123)</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>💡 Tip:</strong> Ak chcete databázu vymazať a znova inicializovať, 
+            <a href="reset.php">kliknite sem</a>.
+        </div>
+    </div>
+</body>
+</html>

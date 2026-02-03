@@ -1,0 +1,91 @@
+🚗 AUTOBAZÁR - RÝCHLY ŠTART
+===========================
+
+⚡ NAJRÝCHLEJŠÍ SPÔSOB SPUSTENIA (3 MINÚTY)
+
+KROK 1: Spustite XAMPP
+━━━━━━━━━━━━━━━━━━━━━━
+1. Otvorte XAMPP Control Panel
+2. Kliknite "Start" vedľa:
+   ✓ Apache
+   ✓ MySQL
+
+KROK 2: Inicializujte databázu (AUTOMATICKY)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Otvorte: http://localhost/projekttt/database.php
+2. Počkajte na správu: ✅ Databáza bola úspešne inicializovaná!
+
+KROK 3: Otvorte aplikáciu
+━━━━━━━━━━━━━━━━━━━━━━━━
+Zadajte do prehliadača:
+http://localhost/projekttt
+
+HOTOVO! ✓
+
+═══════════════════════════════════════════════════════
+
+🔐 PRIHLÁŠKA DO ADMINU
+
+Admin panel: http://localhost/projekttt/admin.php
+
+Meno:  admin
+Heslo: admin123
+
+═══════════════════════════════════════════════════════
+
+💳 TESTOVACIA PLATBA
+
+Skúšobné čísla karty:
+- 4111111111111111 (Visa)
+- 5555555555554444 (Mastercard)
+
+Dátum: 12/25 (akýkoľvek budúci)
+CVV: 123 (akýkoľvek 3 znaky)
+
+═══════════════════════════════════════════════════════
+
+📋 ŠTRUKTÚRA PROJEKTU
+
+projekttt/
+├── inc/
+│   ├── config.php          (konfigurácia)
+│   └── db.php              (databáza)
+├── uploads/                (obrázky)
+├── index.php               (domov)
+├── detail.php              (detail auta)
+├── cart.php                (košík)
+├── checkout.php            (platba)
+├── admin.php               (admin panel)
+├── style.css               (štýly)
+├── database.php            (PHP - Automatická inicializácia)
+└── README.md               (dokumentácia)
+
+═══════════════════════════════════════════════════════
+
+✨ FUNKCIE
+
+✓ Zoznam áut s filtrom
+✓ Detail auta s fotkami
+✓ Nákupný košík
+✓ Simulácia platby kartou
+✓ Admin panel (CRUD)
+✓ Upload obrázkov
+✓ SQL Injection ochrana
+✓ Responzívny dizajn
+
+═══════════════════════════════════════════════════════
+
+❓ PROBLÉMY?
+
+"Chyba pripojenia k databáze"
+→ Skontrolujte, či je MySQL spustený
+
+"Stránka sa nenačítava"
+→ Skontrolujte adresu: http://localhost/projekttt
+
+"Obrázky chýbajú"
+→ Skontrolujte priečinok /uploads
+
+═══════════════════════════════════════════════════════
+
+Podrobná dokumentácia: README.md
